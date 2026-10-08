@@ -56,8 +56,12 @@ function mergeObjects(objects) {
  *    removeProperties({name: 'John', age: 30, city: 'New York'}, ['age']) => {name: 'John', city: 'New York'}
  *
  */
-function removeProperties(/* obj, keys */) {
-  throw new Error('Not implemented');
+function removeProperties(obj, keys) {
+  const copy = { ...obj };
+  keys.forEach((key) => {
+    delete copy[key];
+  });
+  return copy;
 }
 
 /**
@@ -72,8 +76,17 @@ function removeProperties(/* obj, keys */) {
  *    compareObjects({a: 1, b: 2}, {a: 1, b: 2}) => true
  *    compareObjects({a: 1, b: 2}, {a: 1, b: 3}) => false
  */
-function compareObjects(/* obj1, obj2 */) {
-  throw new Error('Not implemented');
+function compareObjects(obj1, obj2) {
+  const first = Object.entries(obj1);
+  if (Object.keys(obj1).length !== Object.keys(obj2).length) {
+    return false;
+  }
+  return first.every(([key, value]) => {
+    if (Object.hasOwn(obj2, key)) {
+      return value === obj2[key];
+    }
+    return false;
+  });
 }
 
 /**
@@ -87,8 +100,11 @@ function compareObjects(/* obj1, obj2 */) {
  *    isEmptyObject({}) => true
  *    isEmptyObject({a: 1}) => false
  */
-function isEmptyObject(/* obj */) {
-  throw new Error('Not implemented');
+function isEmptyObject(obj) {
+  if (Object.keys(obj).length > 0) {
+    return false;
+  }
+  return true;
 }
 
 /**
@@ -107,8 +123,8 @@ function isEmptyObject(/* obj */) {
  *    immutableObj.newProp = 'new';
  *    console.log(immutableObj) => {a: 1, b: 2}
  */
-function makeImmutable(/* obj */) {
-  throw new Error('Not implemented');
+function makeImmutable(obj) {
+  return Object.freeze(obj);
 }
 
 /**
